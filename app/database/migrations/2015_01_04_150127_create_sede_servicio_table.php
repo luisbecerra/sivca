@@ -19,8 +19,9 @@ class CreateSedeServicioTable extends Migration {
 			$table->string('tipo_capacidad');
 			$table->integer('capacidad')->unsigned();
 		});
-
-		DB::statement("ALTER TABLE `sede_servicio` ADD UNIQUE( `id_sede`, `id_servicio`, `tipo_capacidad`);");
+		
+		DB::statement('ALTER TABLE sede_servicio ADD constraint UQ_sede_servicio UNIQUE( id_sede, id_servicio,tipo_capacidad);');
+		
 	}
 
 	/**

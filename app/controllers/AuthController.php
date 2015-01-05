@@ -9,9 +9,9 @@ class AuthController extends BaseController {
     {
         // Obtenemos el email, borramos los espacios
         // y convertimos todo a minúscula
-        $username = mb_strtolower(trim(Input::get('username')));
+        $username = mb_strtolower(trim(Input::get('usuario')));
         // Obtenemos la contraseña enviada
-        $password = Input::get('password');
+        $password = Input::get('contrasena');
  
         // Realizamos la autenticación
         if (Auth::attempt( array('username' => $username, 'password' => $password) ))

@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'pgsql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -66,9 +66,9 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'Tienda',
+			'database' => 'sivca',
 			'username' => 'postgres',
-			'password' => 'felipe',
+			'password' => 'FELIPE',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',

@@ -17,7 +17,7 @@ class CreateEmpresaTable extends Migration {
 			$table->increments('id');
 			$table->string('nombre');
 			$table->string('direccion');
-			$table->bigIinteger('telefono')->unsigned();
+			$table->bigInteger('telefono')->unsigned();
 			$table->bigInteger('celular')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();

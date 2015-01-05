@@ -16,6 +16,8 @@ class CreateLugarTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('lugar')->unique();//nombre lugar
+			$table->tinyInteger('tipo');//1 departamento,2 municipio,3 comuna,4 barrio
+			$table->tinyInteger('urbano');//1 si, 0 no
 			$table->integer('id_lugar')->nullable();
 		});
 	}
