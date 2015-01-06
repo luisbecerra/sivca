@@ -14,7 +14,8 @@ class CreateIpsTable extends Migration {
 	{
 		Schema::create('ips', function(Blueprint $table)
 		{
-			$table->string('id')->unique();//nombre de la ips
+			$table->increments('id');
+			$table->string('nombre')->unique();//nombre de la ips
 			$table->string('conformacion',7);
 			$table->string('caracter',15);
 			$table->string('nivel');

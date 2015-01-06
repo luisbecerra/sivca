@@ -20,6 +20,7 @@
 
     <!-- /.row -->
     <div class="row">
+        
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -27,6 +28,7 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
+
                     <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
@@ -36,23 +38,37 @@
                                     <th>Carácter territorial</th>
                                     <th>Nivel</th>
                                     <th>Sedes</th>
+                                    <th>Dirección</th>
+                                    <th>Teléfono</th>
+                                    <th>Coordinador</th>
                                     <th>Servicios</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($ipss as $ips)
+                                @foreach($ipss as $key=> $ips)
                                 <tr>
-                                    <td rowspan="{{ sizeof($ips->sedes) }}">{{ $ips->id }}</td>
-                                    <td rowspan="{{ sizeof($ips->sedes) }}">{{ $ips->conformacion }}</td>
-                                    <td rowspan="{{ sizeof($ips->sedes) }}">{{ $ips->caracter }}</td>
-                                    <td rowspan="{{ sizeof($ips->sedes) }}">{{ $ips->nivel }}</td>
-                                    @if(sizeof($ips->sedes))
-                                        @foreach($ips->sedes as $sede)
-                                            <td>{{ $sede->id }}</td>
+                                    <td rowspan="{{ $ips->sedes()->count() }}">{{ $ips->nombre }}</td>
+                                    <td rowspan="{{ $ips->sedes()->count() }}">{{ $ips->conformacion }}</td>
+                                    <td rowspan="{{ $ips->sedes()->count() }}">{{ $ips->caracter }}</td>
+                                    <td rowspan="{{ $ips->sedes()->count() }}">{{ $ips->nivel }}</td>                                    
+                                    @if($ips->sedes)
+
+                                        @foreach($ips->sedes as $index => $sede)
+                                            @if($index > 0)
+                                                <tr>
+                                            @endif
+                                            <td>{{ $sede->nombre }}</td>
+                                            <td>{{ $sede->direccion }}</td>
+                                            <td>{{ $sede->telefono }}</td>
+                                            <td>{{ $sede->coordinador }}</td>
+                                            <td><button type="button" class="btn btn-primary">Ver servicios</button></td>  
                                         @endforeach
                                     @else
-                                        <td>No hay sedes registradas</td>
+                                        <td colspan="4">No hay sedes registradas</td>
+                                        <td >&nbsp;</td>
                                     @endif
+
+                                    
                                 </tr>
                                 @endforeach
                                 
@@ -82,7 +98,7 @@
             <form role="form" method="POST" action="/ips" id="form-ips">
                 <div class="form-group">
                     <label>Nombre de la IPS</label>
-                    <input type="text" class="form-control" name="id" required>
+                    <input type="text" class="form-control" name="nombre" required>
                 </div>
                 <div class="form-group">
                     <label>Conformación</label>
@@ -131,7 +147,7 @@
                     <label>IPS a la que pertenece</label>
                     <select class="form-control" name="ips_id">
                         @foreach($ipss as $ips)
-                        <option>{{ $ips->id }}</option>
+                        <option value="{{ $ips->id }}">{{ $ips->nombre }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -142,6 +158,10 @@
                 <div class="form-group">
                     <label name="direccion">Dirección</label>
                     <input type="text" class="form-control" name="direccion">
+                </div>
+                <div class="form-group">
+                    <label name="lugar_id">Barrio</label>
+                    <input type="text" class="form-control" name="lugar_id">
                 </div>
                 <div class="form-group">
                     <label name="caracter">Teléfono</label>
@@ -180,7 +200,7 @@
                 <label>Servicio</label>
                 <select id="servicio">
                     @foreach($servicios as $servicio)
-                    <option>{{ $servicio->id }}</option>
+                    <option value="{{ $servicio->id }}">{{ $servicio->nombre }}</option>
                     @endforeach
                 </select>
 
@@ -198,7 +218,7 @@
                 
             </div>
             <div class="modal-footer">
-              <a href="#" data-dismiss="modal" class="btn">Cancelar</a>
+              <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
               <a href="#" class="btn btn-primary" id="btn-servicio">Agregar</a>
             </div>
           </div>
@@ -217,23 +237,27 @@
             var codigo='';
             codigo+='<div class="checkbox">';
             codigo+='<label>';
-            codigo+='<input style="display:none" type="checkbox" name="servicio" value="'+$("#servicio").val()+'" checked>'+$("#servicio").val();
+            codigo+='<input style="display:none" type="checkbox" name="servicio[]" value="'+$("#servicio").val()+'" checked>'+$("#servicio option:selected").text();
             codigo+='</label>';
             codigo+='</div>';
             codigo+='<div class="form-group input-group">';
-            codigo+='<input type="number" class="form-control" min="0" value="'+$("#capacidad").val()+'">';
+            codigo+='<input type="number" class="form-control" min="0" name="capacidad[]" value="'+$("#capacidad").val()+'">';
             codigo+='<span class="input-group-addon">';
-            codigo+='<input style="display:none" type="checkbox" name="tipo-capacidad" value="'+$("#tipo-capacidad").val()+'" checked>' + $("#tipo-capacidad").val();
+            codigo+='<input style="display:none" type="checkbox" name="tipo-capacidad[]" value="'+$("#tipo-capacidad").val()+'" checked>' + $("#tipo-capacidad").val();
             codigo+='</span>';
             codigo+='</div>';
-            if($("#capacidad").val()>0 && $("[name=servicio][value='"+$("#servicio").val()+"']").length == 0 ){
+            if($("#capacidad").val()>0 && $("[name='servicio[]'][value='"+$("#servicio").val()+"']").length == 0 ){
                 $("#servicios").append(codigo);
                 $('#modalServicios').modal('hide');
-                $('.modal-backdrop').css('height',parseInt(673 + ($("[name=servicio]").length*200) ) +'px');
+                setTimeout(function(){
+                    $('body').addClass('modal-open');
+                    $('.modal-backdrop').css('height',parseInt(673 + ($("[name='servicio[]']").length*100) ) +'px');
+                },100);
+                
                 
             }else if( $("#capacidad").val() ==0 ) {
                 alert("la capacidad debe ser mayor a cero");
-            }else if( $("[name=servicio][value="+$("#servicio").val()+"]").length > 0 ) {
+            }else if( $("[name='servicio[]'][value="+$("#servicio").val()+"]").length > 0 ) {
                 alert("Este servicio ya fue agregado, por favor ingresa otro");
             }
         });

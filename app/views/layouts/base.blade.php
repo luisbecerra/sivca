@@ -25,6 +25,7 @@
 
     <!-- Custom CSS -->
     <link href="/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/dist/css/pickaday.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="/bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -221,6 +222,8 @@
     <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
+    
+    <script src="/dist/js/pickaday.js"></script>
     <script src="/dist/js/sb-admin-2.js"></script>
 
     <!--

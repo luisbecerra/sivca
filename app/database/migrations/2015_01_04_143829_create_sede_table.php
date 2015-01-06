@@ -14,11 +14,13 @@ class CreateSedeTable extends Migration {
 	{
 		Schema::create('sede', function(Blueprint $table)
 		{
-			$table->string('id')->unique();//nombre sede
+			$table->increments('id');
+			$table->string('nombre');//nombre sede
 			$table->string('ips_id');
 			$table->string('direccion');
 			$table->bigInteger('telefono')->unsigned();
 			$table->string('coordinador')->unsigned();
+			$table->unique(array('nombre', 'ips_id'));
 		});
 	}
 

@@ -15,12 +15,13 @@ class CreateAmbulanciaTable extends Migration {
 		Schema::create('ambulancia', function(Blueprint $table)
 		{
 			$table->integer('id');//código asignado por el cruet
+			$table->primary('id');
 			$table->bigInteger('num_tpropiedad'); //numero de tarjeta de propiedad
 			$table->string('tipo',10);
 			$table->string('placa',6);
 			$table->string('marca');
 			$table->string('dir_ambulancia');
-			$table->integer('modelo',4)->unsigned();
+			$table->integer('modelo')->unsigned();
 			$table->date('f_venc_seguro')->unsigned();
 			$table->date('f_venc_soat')->unsigned();
 			$table->integer('num_poliza')->unsigned();
@@ -30,6 +31,8 @@ class CreateAmbulanciaTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+
+
 	}
 
 	/**

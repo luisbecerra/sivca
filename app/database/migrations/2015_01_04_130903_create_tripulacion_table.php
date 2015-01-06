@@ -14,7 +14,8 @@ class CreateTripulacionTable extends Migration {
 	{
 		Schema::create('tripulacion', function(Blueprint $table)
 		{
-			$table->integer('cedula')->unsigned()->unique();
+			$table->integer('id');//cedula de la tripulacion;
+			$table->primary('id');
 			$table->string('nombre');
 			$table->string('cargo');
 			$table->integer('ambulancia_id');//código asignado por el cruet

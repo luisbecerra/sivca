@@ -17,6 +17,10 @@ iframe{
     width: 100%;
 }
 
+table tr td{
+    vertical-align: middle !important;
+}
+
 #wrapper {
     width: 100%;
 }

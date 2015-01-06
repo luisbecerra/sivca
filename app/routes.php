@@ -37,4 +37,12 @@ Route::group(array('before' => 'auth'),function(){
 
 	//rutas para ips
 	Route::controller('ips', 'IpsController');
+
+	//rutas para sede
+	Route::controller('sede', 'SedeController');
+
+	Route::get('/pruebas',  function(){
+	    $ips=Ips::find('HOSPITAL FEDERICO LLERAS ACOSTA E.S.E');
+	    return $ips;
+	});
 });

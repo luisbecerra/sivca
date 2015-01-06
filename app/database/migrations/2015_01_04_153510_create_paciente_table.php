@@ -14,8 +14,9 @@ class CreatePacienteTable extends Migration {
 	{
 		Schema::create('paciente', function(Blueprint $table)
 		{
-			$table->bigInteger('id')->unique();//cedula
-			$table->string('tipo_id');
+			$table->bigInteger('id')->unique();
+			$table->primary('id');
+			$table->string('tipo_id');//cedula,tarjeta o nuip
 			$table->string('nombre');
 			$table->date('f_nacimiento');
 			$table->string('genero',9);

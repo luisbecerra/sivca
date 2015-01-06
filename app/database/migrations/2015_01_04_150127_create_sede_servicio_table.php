@@ -14,13 +14,12 @@ class CreateSedeServicioTable extends Migration {
 	{
 		Schema::create('sede_servicio', function(Blueprint $table)
 		{
-			$table->string('sede_id');
-			$table->string('servicio_id');
+			$table->integer('sede_id')->unsigned();
+			$table->integer('servicio_id')->unsigned();
 			$table->string('tipo_capacidad');
 			$table->integer('capacidad')->unsigned();
+			$table->primary(array('sede_id', 'servicio_id','tipo_capacidad'));
 		});
-		
-		DB::statement('ALTER TABLE sede_servicio ADD constraint UQ_sede_servicio UNIQUE( sede_id, servicio_id,tipo_capacidad);');
 		
 	}
 

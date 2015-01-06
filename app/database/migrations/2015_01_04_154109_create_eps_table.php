@@ -14,7 +14,8 @@ class CreateEpsTable extends Migration {
 	{
 		Schema::create('eps', function(Blueprint $table)
 		{
-			$table->string('id')->unique();//nombre eps
+			$table->increments('id');
+			$table->string('nombre')->unique();//nombre eps
 		});
 	}
 

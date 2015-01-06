@@ -14,6 +14,7 @@ class CreateCursoTripulacionTable extends Migration {
 	{
 		Schema::create('curso_tripulacion', function(Blueprint $table)
 		{
+			$table->increments('id');
 			$table->integer('id_tripulacion')->unsigned();
 			$table->string('nombre');
 			$table->date('fecha');
