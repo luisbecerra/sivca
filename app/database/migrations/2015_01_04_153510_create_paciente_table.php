@@ -21,7 +21,7 @@ class CreatePacienteTable extends Migration {
 			$table->string('genero',9);
 			$table->string('direccion');
 			$table->string('regimen');
-			$table->integer('id_lugar');
+			$table->integer('lugar_id');//barrio en el que esta ubicado
 			$table->timestamps();
 			$table->softDeletes();
 		});

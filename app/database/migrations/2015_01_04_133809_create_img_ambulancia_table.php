@@ -15,7 +15,7 @@ class CreateImgAmbulanciaTable extends Migration {
 		Schema::create('img_ambulancia', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('id_ambulancia');
+			$table->integer('ambulancia_id');
 			$table->string('url');
 		});
 	}

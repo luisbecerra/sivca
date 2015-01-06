@@ -16,7 +16,7 @@ class CreateIpsTable extends Migration {
 		{
 			$table->string('id')->unique();//nombre de la ips
 			$table->string('conformacion',7);
-			$table->string('caracter');
+			$table->string('caracter',15);
 			$table->string('nivel');
 			$table->timestamps();
 			$table->softDeletes();

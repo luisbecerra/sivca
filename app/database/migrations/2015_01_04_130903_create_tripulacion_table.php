@@ -17,6 +17,7 @@ class CreateTripulacionTable extends Migration {
 			$table->integer('cedula')->unsigned()->unique();
 			$table->string('nombre');
 			$table->string('cargo');
+			$table->integer('ambulancia_id');//código asignado por el cruet
 			$table->timestamps();
 			$table->softDeletes();
 		});

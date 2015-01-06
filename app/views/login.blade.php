@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SIVCA - Software de inspeccion, Vigilancia y Control de Ambulancias</title>
+    <title>SIVCA - Software de inspección, Vigilancia y Control de Ambulancias</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -56,7 +56,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button type="submit" class="btn btn-lg btn-success btn-block">Iniciar sesion</button>
+                                <button type="submit" class="btn btn-lg btn-success btn-block">Iniciar sesión</button>
                             </fieldset>
                         </form>
                     </div>

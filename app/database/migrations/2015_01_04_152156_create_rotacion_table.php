@@ -15,7 +15,7 @@ class CreateRotacionTable extends Migration {
 		Schema::create('rotacion', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('id_ambulancia');
+			$table->integer('ambulancia_id');
 			$table->time('h_inicio');
 			$table->time('h_fin');
 			$table->date('f_inicio');

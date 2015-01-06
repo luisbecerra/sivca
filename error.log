@@ -1,0 +1,2 @@
+[Mon Jan 05 13:15:41.245974 2015] [:error] [pid 8583] [client 127.0.0.1:47297] PHP Fatal error:  Class 'IPS' not found in /home/felipe/quicklyapps/sivca/app/controllers/IpsController.php on line 12, referer: http://sivca.dev/ips
+[Mon Jan 05 15:44:07.338816 2015] [:error] [pid 13142] [client 127.0.0.1:49864] PHP Fatal error:  Class 'Sede' not found in /home/felipe/quicklyapps/sivca/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php on line 711, referer: http://sivca.dev/ips

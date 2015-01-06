@@ -9,19 +9,25 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SIVCA - Software de inspeccion, Vigilancia y Control de Ambulancias</title>
+    <title>SIVCA - Software de inspección, Vigilancia y Control de Ambulancias</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    <link href="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+
 
     <!-- Custom CSS -->
-    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,7 +51,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SIVCA - Software de inspeccion, Vigilancia y Control de Ambulancias</a>
+                <a class="navbar-brand" href="index.html">SIVCA - Software de inspección, Vigilancia y Control de Ambulancias</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -110,16 +116,16 @@
                             <a class="active" href="/inicio"><i class="fa fa-dashboard fa-fw"></i> Inicio</a>
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Inspeccion y control<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Inspección y control<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="/consultaRUP">Consulta RUP</a>
                                 </li>
                                 <li>
-                                    <a href="#">Poblacion</a>
+                                    <a href="/poblacion">Población</a>
                                 </li>
                                 <li>
-                                    <a href="/poblacionDane">Poblacion DANE</a>
+                                    <a href="/poblacionDane">Población DANE</a>
                                 </li>
                                 <li>
                                     <a href="#">Ambulancias</a>
@@ -134,10 +140,7 @@
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> IPS<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Crear IPS</a>
-                                </li>
-                                <li>
-                                    <a href="#">Capacidad instalada</a>
+                                    <a href="/ips">Capacidad Instalada</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -146,7 +149,7 @@
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Control contratos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Rotacion</a>
+                                    <a href="#">Rotación</a>
                                 </li>
                                 <li>
                                     <a href="#">Efectividad</a>
@@ -161,7 +164,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Estadisticas<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Estadísticas<span class="fa arrow"></span></a>
                             
                             <!-- /.nav-second-level -->
                         </li>
@@ -175,6 +178,32 @@
 
         <!-- Page Content -->
         <div id="page-wrapper">
+            @if (Session::has('mensaje'))
+                <div class="row">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            Datos guardados
+                        </div>
+                        <div class="panel-body">
+                            <h4 class="text-success">{{  Session::get('mensaje') }}</h4>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if(Session::has('error'))
+                <div class="row">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            ERROR
+                        </div>
+                        <div class="panel-body">
+                            <h4 class="text-danger">{{ Session::get('error') }}</h4>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             @yield('contenido')
         </div>
         <!-- /#page-wrapper -->
@@ -183,16 +212,30 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="/dist/js/sb-admin-2.js"></script>
+
+    <!--
+    <script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
+    -->
+    </script>
+
+    @yield('scripts-extra')
 
 </body>
 

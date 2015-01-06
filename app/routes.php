@@ -32,4 +32,9 @@ Route::group(array('before' => 'auth'),function(){
 	    return View::make('bdua');
 	});
 
+	//rutas para poblacion
+	Route::controller('poblacion', 'PoblacionController');
+
+	//rutas para ips
+	Route::controller('ips', 'IpsController');
 });

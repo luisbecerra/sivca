@@ -14,7 +14,7 @@ class CreateAmbulanciaTable extends Migration {
 	{
 		Schema::create('ambulancia', function(Blueprint $table)
 		{
-			$table->integer('id');//codigo asignado por el cruet
+			$table->integer('id');//código asignado por el cruet
 			$table->bigInteger('num_tpropiedad'); //numero de tarjeta de propiedad
 			$table->string('tipo',10);
 			$table->string('placa',6);

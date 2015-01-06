@@ -15,7 +15,7 @@ class CreateEquipoComunicacionTable extends Migration {
 		Schema::create('equipo_comunicacion', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('id_ambulancia');
+			$table->integer('ambulancia_id');
 			$table->string('tipo',10);
 			$table->string('descripcion');
 			$table->string('numero_ce');

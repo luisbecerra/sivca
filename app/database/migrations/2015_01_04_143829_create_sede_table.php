@@ -15,7 +15,7 @@ class CreateSedeTable extends Migration {
 		Schema::create('sede', function(Blueprint $table)
 		{
 			$table->string('id')->unique();//nombre sede
-			$table->string('id_ips');
+			$table->string('ips_id');
 			$table->string('direccion');
 			$table->bigInteger('telefono')->unsigned();
 			$table->string('coordinador')->unsigned();
