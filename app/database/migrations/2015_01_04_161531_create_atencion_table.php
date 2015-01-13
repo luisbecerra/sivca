@@ -17,11 +17,13 @@ class CreateAtencionTable extends Migration {
 			$table->increments('id');
 			$table->integer('ambulancia_id');
 			$table->integer('paciente_id');
-			$table->integer('ips_id');
-			$table->integer('tipo');
+			$table->integer('sede_id');
+			$table->string('tipo');
+			$table->text('motivo');
 			$table->timestamp('f_solicitud');//hora y fecha de solicitud del servicio
 			$table->timestamp('f_atencion');//hora y fecha de llegada al lugar de emergencia
-			$table->timestamp('f_llegada');//hora y fecha de llegada a la ips
+			$table->timestamp('f_inicio_traslado');
+			$table->timestamp('f_fin_traslado');
 			$table->timestamps();
 		});
 	}

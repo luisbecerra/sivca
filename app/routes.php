@@ -17,7 +17,20 @@ Route::get('logout', array('uses' => 'AuthController@doLogout', 'before' => 'aut
 Route::group(array('before' => 'auth'),function(){
 
 	Route::get('/inicio',  function(){
-	    return View::make('inicio');
+		$nTripulantes=Tripulacion::count();
+		$nAmbulancias=Ambulancia::count();
+		$nPacientes=Tripulacion::count();
+		$nIps=Tripulacion::count();
+		$nAtendidos=Atencion::select('paciente_id')->groupBy('paciente_id')->get();
+		$nPoblacion=Poblacion::sum('i_total');
+
+	    return View::make('inicio')
+	    	->with('nTripulantes',$nTripulantes)
+	    	->with('nAmbulancias',$nAmbulancias)
+	    	->with('nPacientes',$nPacientes)
+	    	->with('nIps',$nIps)
+	    	->with('nAtendidos',$nAtendidos)
+	    	->with('nPoblacion',$nPoblacion);
 	});
 
 	Route::get('/consultaRUP',  function(){
@@ -41,8 +54,37 @@ Route::group(array('before' => 'auth'),function(){
 	//rutas para sede
 	Route::controller('sede', 'SedeController');
 
+	//rutas para lugar
+	Route::controller('lugar', 'LugarController');
+
+	//rutas para rotacion
+	Route::controller('turno', 'TurnoController');
+
+	//rutas para novedades
+	Route::controller('novedad', 'NovedadController');
+
+	//ruta para ambulancias
+	Route::controller('ambulancia', 'AmbulanciaController');
+
+	//ruta para empresa
+	Route::controller('empresa', 'EmpresaController');
+
+	//ruta para empresa
+	Route::controller('tripulacion', 'TripulacionController');
+
+	//ruta para cursos de la tripulacion
+	Route::controller('curso', 'CursoController');
+
+	//ruta para equipos de comunicacion
+	Route::controller('comunicacion', 'ComunicacionController');
+
+	//ruta para atenciones de pacientes
+	Route::controller('atencion', 'AtencionController');
+
+	//ruta para pacientes
+	//Route::controller('paciente', 'PacienteController');
+
 	Route::get('/pruebas',  function(){
-	    $ips=Ips::find('HOSPITAL FEDERICO LLERAS ACOSTA E.S.E');
-	    return $ips;
+	    return date('H:i',strtotime('01:00'));
 	});
 });

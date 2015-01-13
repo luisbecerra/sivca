@@ -17,6 +17,7 @@ class CreateSedeTable extends Migration {
 			$table->increments('id');
 			$table->string('nombre');//nombre sede
 			$table->string('ips_id');
+			$table->string('lugar_id');
 			$table->string('direccion');
 			$table->bigInteger('telefono')->unsigned();
 			$table->string('coordinador')->unsigned();

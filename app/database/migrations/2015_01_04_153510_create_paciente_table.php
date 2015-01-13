@@ -14,15 +14,16 @@ class CreatePacienteTable extends Migration {
 	{
 		Schema::create('paciente', function(Blueprint $table)
 		{
-			$table->bigInteger('id')->unique();
+			$table->bigInteger('id')->unique()->unsigned();
 			$table->primary('id');
-			$table->string('tipo_id');//cedula,tarjeta o nuip
+			$table->string('tipo_id',4);//cedula,tarjeta o nuip
 			$table->string('nombre');
 			$table->date('f_nacimiento');
-			$table->string('genero',9);
+			$table->string('genero',1);
 			$table->string('direccion');
 			$table->string('regimen');
 			$table->integer('lugar_id');//barrio en el que esta ubicado
+			$table->integer('eps_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});

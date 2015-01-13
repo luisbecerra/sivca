@@ -14,7 +14,7 @@ class CreateTripulacionTable extends Migration {
 	{
 		Schema::create('tripulacion', function(Blueprint $table)
 		{
-			$table->integer('id');//cedula de la tripulacion;
+			$table->integer('id');//cédula de la tripulación;
 			$table->primary('id');
 			$table->string('nombre');
 			$table->string('cargo');

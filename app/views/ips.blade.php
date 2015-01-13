@@ -20,7 +20,7 @@
 
     <!-- /.row -->
     <div class="row">
-        
+
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -61,7 +61,7 @@
                                             <td>{{ $sede->direccion }}</td>
                                             <td>{{ $sede->telefono }}</td>
                                             <td>{{ $sede->coordinador }}</td>
-                                            <td><button type="button" class="btn btn-primary">Ver servicios</button></td>  
+                                            <td><button type="button" class="btn btn-primary btn-info-sede" data-id="{{ $sede->id }}">Ver servicios</button></td>  
                                         @endforeach
                                     @else
                                         <td colspan="4">No hay sedes registradas</td>
@@ -86,7 +86,7 @@
     <!-- /.row -->
 
     <!-- Modal IPS-->
-    <div class="modal fade" id="nuevaIps" tabindex="-1" role="dialog" aria-labelledby="modalIpsLabel" aria-hidden="true">
+    <div class="modal fade" id="nuevaIps" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalIpsLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -103,7 +103,6 @@
                 <div class="form-group">
                     <label>Conformación</label>
                     <select class="form-control" name="conformacion" required>
-                        <option>No aplica</option>
                         <option>Pública</option>
                         <option>Privada</option>
                     </select>
@@ -111,6 +110,7 @@
                 <div class="form-group">
                     <label>Carácter territorial</label>
                     <select class="form-control" name="caracter" required>
+                        <option>No aplica</option>
                         <option>Municipal</option>
                         <option>Departamental</option>
                     </select>
@@ -134,7 +134,7 @@
     </div>
 
     <!-- Modal Sede -->
-    <div class="modal fade" id="nuevaSede" tabindex="-1" role="dialog" aria-labelledby="modalSedeLabel" aria-hidden="true">
+    <div class="modal fade" id="nuevaSede" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalSedeLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -145,7 +145,7 @@
             <form role="form" method="POST" action="/sede" id="form-sede">
                 <div class="form-group">
                     <label>IPS a la que pertenece</label>
-                    <select class="form-control" name="ips_id">
+                    <select class="form-control" name="ips_id" required>
                         @foreach($ipss as $ips)
                         <option value="{{ $ips->id }}">{{ $ips->nombre }}</option>
                         @endforeach
@@ -153,23 +153,48 @@
                 </div>
                 <div class="form-group">
                     <label>Nombre de la sede</label>
-                    <input type="text" class="form-control" name="nombre">
+                    <input type="text" class="form-control" name="nombre" required>
                 </div>
+
+                <div class="form-group">
+                    <label>Barrio</label>
+                    <select class="form-control" name="lugar_id" id="barrio" required>
+                        @foreach($barrios as $barrio)
+                        <option value="{{ $barrio->id }}">{{ $barrio->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Comuna</label>
+                    <select class="form-control" name="lugar_id" id="comuna" disabled>
+                        @foreach($comunas as $comuna)
+                        <option value="{{ $comuna->id }}">{{ $comuna->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Ciudad</label>
+                    <select class="form-control" name="lugar_id" id="ciudad" disabled>
+                        @foreach($ciudades as $ciudad)
+                        <option value="{{ $ciudad->id }}">{{ $ciudad->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+
                 <div class="form-group">
                     <label name="direccion">Dirección</label>
-                    <input type="text" class="form-control" name="direccion">
-                </div>
-                <div class="form-group">
-                    <label name="lugar_id">Barrio</label>
-                    <input type="text" class="form-control" name="lugar_id">
+                    <input type="text" class="form-control" name="direccion" required>
                 </div>
                 <div class="form-group">
                     <label name="caracter">Teléfono</label>
-                    <input type="number" class="form-control" name="telefono">
+                    <input type="number" class="form-control" min="10000" name="telefono" required>
                 </div>
                 <div class="form-group">
                     <label>Coordinador</label>
-                    <input type="text" class="form-control" name="coordinador">
+                    <input type="text" class="form-control" name="coordinador" required>
                 </div>
                 <p><strong>Servicios</strong></p>
                 <div id="servicios">
@@ -189,42 +214,63 @@
       </div>
     </div>
 
+    <div class="modal fade" id="modalInfoSedes" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="InfoSedesLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="InfoSedesLabel">Nueva sede</h4>
+          </div>
+          <div class="modal-body">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Servicios disponibles para agregar o editar -->
     <div class="modal" id="modalServicios" data-backdrop="static">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title">Agregar nuevo servicio</h4>
+              <h4 class="modal-title">Servicios IPS</h4>
             </div><div class="container"></div>
             <div class="modal-body">
-                <label>Servicio</label>
-                <select id="servicio">
-                    @foreach($servicios as $servicio)
-                    <option value="{{ $servicio->id }}">{{ $servicio->nombre }}</option>
-                    @endforeach
-                </select>
+                <form id="form-servicio">
 
-                <div class="form-group input-group">
-                    <input type="number" class="form-control" min="0" value="0" id="capacidad">
-                    <span class="input-group-addon">
-                        <select id="tipo-capacidad">
-                            <option>Camas</option>
-                            <option>Camillas</option>
-                            <option>Cunas</option>
-                            <option>Salas</option>
+                    <div class="form-group">
+                        <label>Servicio</label>
+                        <select id="servicio" name="servicio">
+                            @foreach($servicios as $servicio)
+                            <option value="{{ $servicio->id }}">{{ $servicio->nombre }}</option>
+                            @endforeach
                         </select>
-                    </span>
-                </div>
+                    </div>
+
+                    <div class="form-group input-group">
+                        <input type="number" class="form-control" min="0" value="0" id="capacidad" name="capacidad">
+                        <span class="input-group-addon">
+                            <select id="tipo-capacidad" name="tipo-capacidad">
+                                <option>Camas</option>
+                                <option>Camillas</option>
+                                <option>Cunas</option>
+                                <option>Salas</option>
+                            </select>
+                        </span>
+                    </div>
+                </form>
                 
             </div>
             <div class="modal-footer">
-              <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-              <a href="#" class="btn btn-primary" id="btn-servicio">Agregar</a>
+              <a href="#" class="btn btn-default" id="btn-servicio-cancelar" data-dismiss="modal">Cancelar</a>
+              <a href="#" class="btn btn-primary" id="btn-servicio">Aceptar</a>
             </div>
           </div>
         </div>
     </div>
 
+    
 @stop
 
 @section('scripts-extra')
@@ -233,7 +279,72 @@
             $("#form-ips").submit();
         });
 
+        $("#form-ips").validate();
+
         $("#btn-servicio").click(function(event) {
+            var $modalServicios=$("#modalServicios");
+            if( typeof($modalServicios.attr('data-editar')) !== "undefined"){
+                editarServicio($modalServicios);
+            }else
+                agregarServicio();
+        });
+
+        $("#btn-nueva-sede").click(function(event) {
+            $("#form-sede").submit();
+        });
+
+        $("#form-sede").validate();
+
+        $("#barrio").change(function(event) {
+            var self=this;
+            $.getJSON('lugar/padre/'+self.value,function(lugar){
+                $("#comuna").val(lugar.id);
+            });
+        });
+
+        $("#comuna").change(function(event) {
+            var self=this;
+            $.getJSON('lugar/padre/'+self.value,function(lugar){
+                $("#ciudad").val(lugar.id);
+            });
+        });
+
+        $(".btn-info-sede").click(function(event) {
+            var idIps = $(this).data('id');
+            $contenedor=$('#modalInfoSedes .modal-body');
+            $contenedor.html('<b>Cargando servicios<b>');
+            $('#modalInfoSedes').modal('show');
+            $contenedor.load('/ips/info-sedes/'+idIps,function(data){
+                $contenedor.html(data);
+
+                $(".editar-servicio").off('click').on('click',function(event) {
+                    console.log($(event.target).data('sid'));
+                    $('#modalServicios')
+                            .modal('show')
+                            .attr('data-editar', $(event.target).data('id') )
+                            .attr('data-sid', $(event.target).data('sid') );
+
+                    var servicio=$(event.target).data('servicio');
+                    $("#servicio").val( servicio.id ).parent().hide();
+                    $("#capacidad").val( parseInt(servicio.pivot.capacidad) );
+                    $("#tipo_capacidad").val( servicio.pivot.tipo_capacidad );
+                });
+
+                $(".eliminar-servicio").off('click').on('click',function(event) {
+                    $this=$(this);
+                    var servicio=$this.data('servicio');
+                    //sedeId,servicioId,tipoCapacidad,liItem
+                    eliminarServicio( $this.data('id'),servicio.id,servicio.pivot.tipo_capacidad,$this.data('sid') );
+                });
+            });
+        });
+
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            $("#modalServicios").removeAttr('data-editar');
+            $("#servicio").val( servicio.id ).parent().show();
+        });
+
+        function agregarServicio () {
             var codigo='';
             codigo+='<div class="checkbox">';
             codigo+='<label>';
@@ -249,21 +360,50 @@
             if($("#capacidad").val()>0 && $("[name='servicio[]'][value='"+$("#servicio").val()+"']").length == 0 ){
                 $("#servicios").append(codigo);
                 $('#modalServicios').modal('hide');
+            
                 setTimeout(function(){
                     $('body').addClass('modal-open');
-                    $('.modal-backdrop').css('height',parseInt(673 + ($("[name='servicio[]']").length*100) ) +'px');
+                    $('.modal-backdrop').css('height',parseInt( $(window).height() + ($("[name='servicio[]']").length*100) ) +'px');
                 },100);
-                
+            
                 
             }else if( $("#capacidad").val() ==0 ) {
                 alert("la capacidad debe ser mayor a cero");
             }else if( $("[name='servicio[]'][value="+$("#servicio").val()+"]").length > 0 ) {
                 alert("Este servicio ya fue agregado, por favor ingresa otro");
             }
-        });
+        }
 
-        $("#btn-nueva-sede").click(function(event) {
-            $("#form-sede").submit();
-        });
+        function editarServicio ($modalServicios) {
+            var sedeId=$modalServicios.attr('data-editar');
+            var servicioId=$modalServicios.attr('data-sid');
+            $modalServicios.modal('hide');
+            $.post(
+                '/sede/servicio/'+sedeId +'/'+$("#servicio").val(),
+                $("#form-servicio").serialize(),
+                function (data) {
+                    if(data==1){
+                        $(servicioId).find('span').text( $("#capacidad").val() );
+                        $(servicioId).find('text').text( $("#tipo-capacidad").val() );
+                    }else{
+                        alert("Error al editar este servicio");
+                    }
+                    
+                }
+            );
+        }
+
+        function eliminarServicio (sedeId,servicioId,tipoCapacidad,liItem) {
+            $.post(
+                '/sede/eliminar-servicio/'+sedeId +'/'+ servicioId +'/'+ tipoCapacidad,
+                function (data) {
+                    if(data==1)
+                        $(liItem).remove();
+                    else
+                        alert("Error al eliminar este servicio");
+                }
+            );
+        }
+
     </script>
 @stop

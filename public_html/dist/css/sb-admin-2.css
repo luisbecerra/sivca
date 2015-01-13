@@ -21,6 +21,22 @@ table tr td{
     vertical-align: middle !important;
 }
 
+div.accion-turno,div.accion-sede{
+    display: none;
+}
+
+.info-turno:hover > div.accion-turno, .info-sede:hover > .accion-sede {
+    display: block;
+}
+
+.error{
+    color: rgb(213, 30, 30) !important;
+}
+
+#contenerdorPicker .pika-single{
+    z-index: 1 !important;
+}
+
 #wrapper {
     width: 100%;
 }

@@ -12,23 +12,24 @@
     <title>SIVCA - Software de inspección, Vigilancia y Control de Ambulancias</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{ HTML::style('/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
 
     <!-- MetisMenu CSS -->
-    <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    {{ HTML::style('/bower_components/metisMenu/dist/metisMenu.min.css') }}
 
-    <link href="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
-
+    {{ HTML::style('/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css') }}
+    
     <!-- DataTables Responsive CSS -->
-    <link href="/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
-
+    {{ HTML::style('/bower_components/datatables-responsive/css/dataTables.responsive.css') }}
+    
+    <!-- Pikaday CSS -->
+    {{ HTML::style('/bower_components/pikaday/css/pikaday.css') }}
 
     <!-- Custom CSS -->
-    <link href="/dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="/dist/css/pickaday.css" rel="stylesheet">
-
+    {{ HTML::style('/dist/css/sb-admin-2.css') }}
     <!-- Custom Fonts -->
-    <link href="/bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    {{ HTML::style('/bower_components/fontawesome/css/font-awesome.min.css') }}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -52,7 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SIVCA - Software de inspección, Vigilancia y Control de Ambulancias</a>
+                <a class="navbar-brand" href="/inicio">SIVCA - Software de inspección, Vigilancia y Control de Ambulancias</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -120,19 +121,19 @@
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Inspección y control<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/consultaRUP">Consulta RUP</a>
+                                    <a href="consultaRUP">Consulta RUP</a>
                                 </li>
                                 <li>
-                                    <a href="/poblacion">Población</a>
+                                    <a href="poblacion">Población</a>
                                 </li>
                                 <li>
-                                    <a href="/poblacionDane">Población DANE</a>
+                                    <a href="poblacionDane">Población DANE</a>
                                 </li>
                                 <li>
-                                    <a href="#">Ambulancias</a>
+                                    <a href="ambulancia">Ambulancias</a>
                                 </li>
                                 <li>
-                                    <a href="#">Talento humano</a>
+                                    <a href="tripulacion">Talento humano</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -141,7 +142,7 @@
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> IPS<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/ips">Capacidad Instalada</a>
+                                    <a href="ips">Capacidad Instalada</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -150,16 +151,19 @@
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Control contratos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Rotación</a>
+                                    <a href="turno">Rotación</a>
                                 </li>
                                 <li>
                                     <a href="#">Efectividad</a>
                                 </li>
                                 <li>
+                                    <a href="atencion">Atenciones</a>
+                                </li>
+                                <li>
                                     <a href="#">Consulta PPNA</a>
                                 </li>
                                 <li>
-                                    <a href="/consultaBDUA">Consulta BDUA</a>
+                                    <a href="consultaBDUA">Consulta BDUA</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -213,19 +217,23 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    {{ HTML::script('/bower_components/jquery/dist/jquery.min.js') }}
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    {{ HTML::script('/bower_components/bootstrap/dist/js/bootstrap.min.js') }}
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    {{ HTML::script('/bower_components/metisMenu/dist/metisMenu.min.js') }}
+    
+    <!-- Pikaday JavaScript -->
+    {{ HTML::script('/bower_components/pikaday/js/moment.min.js') }}
+    {{ HTML::script('/bower_components/pikaday/js/pikaday.js') }}
+    
+    <!-- Jquery validate JavaScript -->
+    {{ HTML::script('/bower_components/jquery.validate/jquery.validate.min.js') }}
 
     <!-- Custom Theme JavaScript -->
-    
-    <script src="/dist/js/pickaday.js"></script>
-    <script src="/dist/js/sb-admin-2.js"></script>
-
+    {{ HTML::script('/dist/js/sb-admin-2.js') }}
     <!--
     <script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
@@ -236,6 +244,89 @@
         });
     });
     -->
+    <script>
+    $.extend(jQuery.validator.messages, {
+        required: "Este campo es obligatorio.",
+        email: "La direccion de correo ingresada no es valida.",
+        date: "Por favor ingrese una fecha valida.",
+        number: "Por favor ingresa un valor numerico.",
+        maxlength: $.validator.format("Ingresa maximo {0} caracteres."),
+        minlength: $.validator.format("Ingresa al menos {0} caracteres."),
+        range: $.validator.format("Por favor ingresa un valor entre {0} y {1}."),
+        max: $.validator.format("Por favor ingresa un valor menor o igual a {0}."),
+        min: $.validator.format("Por favor ingresa un valor mayor o igual a {0}.")
+    });
+
+
+    // moment.js locale configuration
+    // locale : spanish (es)
+    // author : Julio Napurí : https://github.com/julionc
+
+
+    var monthsShortDot = 'ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.'.split('_');
+    var monthsShort = 'ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic'.split('_');
+
+    moment.defineLocale('es', {
+            months : 'enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre'.split('_'),
+            monthsShort : function (m, format) {
+                if (/-MMM-/.test(format)) {
+                    return monthsShort[m.month()];
+                } else {
+                    return monthsShortDot[m.month()];
+                }
+            },
+            weekdays : 'domingo_lunes_martes_miércoles_jueves_viernes_sábado'.split('_'),
+            weekdaysShort : 'dom._lun._mar._mié._jue._vie._sáb.'.split('_'),
+            weekdaysMin : 'Do_Lu_Ma_Mi_Ju_Vi_Sá'.split('_'),
+            longDateFormat : {
+                LT : 'H:mm',
+                LTS : 'LT:ss',
+                L : 'DD-MM-YYYY',
+                LL : 'D [de] MMMM [de] YYYY',
+                LLL : 'D [de] MMMM [de] YYYY LT',
+                LLLL : 'dddd, D [de] MMMM [de] YYYY LT'
+            },
+            calendar : {
+                sameDay : function () {
+                    return '[hoy a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
+                },
+                nextDay : function () {
+                    return '[mañana a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
+                },
+                nextWeek : function () {
+                    return 'dddd [a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
+                },
+                lastDay : function () {
+                    return '[ayer a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
+                },
+                lastWeek : function () {
+                    return '[el] dddd [pasado a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
+                },
+                sameElse : 'L'
+            },
+            relativeTime : {
+                future : 'en %s',
+                past : 'hace %s',
+                s : 'unos segundos',
+                m : 'un minuto',
+                mm : '%d minutos',
+                h : 'una hora',
+                hh : '%d horas',
+                d : 'un día',
+                dd : '%d días',
+                M : 'un mes',
+                MM : '%d meses',
+                y : 'un año',
+                yy : '%d años'
+            },
+            ordinalParse : /\d{1,2}º/,
+            ordinal : '%dº',
+            week : {
+                dow : 1, // Monday is the first day of the week.
+                doy : 4  // The week that contains Jan 4th is the first week of the year.
+            }
+        });
+
     </script>
 
     @yield('scripts-extra')

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRotacionTable extends Migration {
+class CreateTurnoTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,15 +12,16 @@ class CreateRotacionTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('rotacion', function(Blueprint $table)
+		Schema::create('turno', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('ambulancia_id');
 			$table->time('h_inicio');
 			$table->time('h_fin');
-			$table->date('f_inicio');
-			$table->date('f_fin');
+			$table->date('dia_inicio');
+			$table->date('dia_fin');
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 
@@ -31,7 +32,7 @@ class CreateRotacionTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('rotacion');
+		Schema::drop('turno');
 	}
 
 }
