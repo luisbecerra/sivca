@@ -59,38 +59,54 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <!-- /.dropdown -->
+                @if(Auth::user()->role==1)
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        @if(isset($vencidos) && sizeof($vencidos))
+                        <span class="badge">{{ sizeof($vencidos) }}</span>
+                        @endif
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
+                        @if(isset($vencidos) && sizeof($vencidos))
+                            @foreach($vencidos as $vencido)
+                            <li>
+                                <a href="ambulancias">
+                                    <div>
+                                        <i class="fa fa-comment fa-fw"></i> Ambulancia No {{ $vencido->id }} 
+                                        @if($vencido->f_venc_soat==date("Y-m-d",strtotime("+10 day")))
+                                        <span class="pull-right text-muted small">Vencimiento soat {{ $vencido->f_venc_soat }}</span>
+                                        @elseif($vencido->f_venc_seguro==date("Y-m-d",strtotime("+10 day")))
+                                        <span class="pull-right text-muted small">Vencimiento seguro {{ $vencido->f_venc_soat }}</span>
+                                        @elseif($vencido->f_venc_poliza==date("Y-m-d",strtotime("+10 day")))
+                                        <span class="pull-right text-muted small">Vencimiento póliza seguro {{ $vencido->f_venc_soat }}</span>
+                                        @endif
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            @endforeach
+                        @else
+                            <li>
+                                <a href="#">
+                                    <div>
+                                        No hay notificaciones sobre ambulancias
+                                    </div>
+                                </a>
+                            </li>
+                        @endif
+
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
+                @endif
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesion</a>
+                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -117,9 +133,11 @@
                         <li>
                             <a class="active" href="/inicio"><i class="fa fa-dashboard fa-fw"></i> Inicio</a>
                         </li>
+                        @if(Auth::user()->role==1 || Auth::user()->role==2)
                         <li >
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Inspección y control<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                                
                                 <li>
                                     <a href="consultaRUP">Consulta RUP</a>
                                 </li>
@@ -129,15 +147,20 @@
                                 <li>
                                     <a href="poblacionDane">Población DANE</a>
                                 </li>
+                                
+                                @if(Auth::user()->role==2)
                                 <li>
                                     <a href="ambulancia">Ambulancias</a>
                                 </li>
                                 <li>
                                     <a href="tripulacion">Talento humano</a>
                                 </li>
+                                @endif
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        @endif
+                        @if(Auth::user()->role==1)
                         <li >
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> IPS<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -147,33 +170,51 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        @endif
                         <li >
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Control contratos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                                @if(Auth::user()->role==1)
+                                <li>
+                                    <a href="turno">Efectividad</a>
+                                </li>
+                                @elseif(Auth::user()->role==2)
                                 <li>
                                     <a href="turno">Rotación</a>
                                 </li>
-                                <li>
-                                    <a href="#">Efectividad</a>
-                                </li>
+                                @endif
+
+
+                                @if(Auth::user()->role==1 || Auth::user()->role==3)
+                                
                                 <li>
                                     <a href="atencion">Atenciones</a>
                                 </li>
-                                <li>
-                                    <a href="#">Consulta PPNA</a>
-                                </li>
-                                <li>
-                                    <a href="consultaBDUA">Consulta BDUA</a>
-                                </li>
+                                    @if(Auth::user()->role==1)
+                                    <li>
+                                        <a href="#">Consulta PPNA</a>
+                                    </li>
+                                    <li>
+                                        <a href="consultaBDUA">Consulta BDUA</a>
+                                    </li>
+                                    @endif
+                                @endif
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        @if(Auth::user()->role==1)
                         <li>
                             <a href="estadisticas"><i class="fa fa-bar-chart-o fa-fw"></i> Estadísticas<span class="fa arrow"></span></a>
                             
                             <!-- /.nav-second-level -->
                         </li>
+                        @endif
                         
+                        <li>
+                            <center>
+                                <img style="margin-top:20%" class="img-responsive" src="/img/logo-ibague.png">
+                            </center>
+                        </li>                        
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

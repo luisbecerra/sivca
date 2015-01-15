@@ -18,13 +18,24 @@ class AuthController extends BaseController {
         {
             // Aquí también pueden devolver una llamada a otro controlador o
             // devolver una vista
+            Auth::user()->touch();
+            
+            $ultDia=date("t", 1 );
+            $fechaHabilitacion=date("Y-m-d",strtotime( date('Y-m-'.$ultDia)." -5 day" ));
+            
+            if( (Auth::user()->role==2) && (date('Y-m-d')<=$fechaHabilitacion) ){
+                Auth::logout();
+                return Redirect::to('login')->with('mensaje','Solo puedes ingresar los últimos 5 días del mes');
+            }
+            
+
             return Redirect::to('/inicio');
         }
  
         // La autenticación ha fallado re-direccionamos
         // a la página anterior con los datos enviados
         // y con un mensaje de error
-        return Redirect::to('/login?error=1');
+        return Redirect::to('/login')->with('mensaje','Clave o contraseña incorrecta');
     }
  
     public function doLogout()
@@ -35,5 +46,6 @@ class AuthController extends BaseController {
         //Redireccionamos al inicio de la app con un mensaje
         return Redirect::to('/login');
     }
+
  
 }

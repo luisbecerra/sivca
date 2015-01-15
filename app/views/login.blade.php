@@ -37,6 +37,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
+                <center>
+                <img class="img-responsive" src="/img/sivca.png">
+                </center>
+            </div>
+            <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">SIVCA</h3>
@@ -50,17 +55,15 @@
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Contraseña" name="contrasena" type="password" value="">
                                 </div>
-                                <div class="checkbox" style="display:none">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Recuerdame
-                                    </label>
-                                </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <button type="submit" class="btn btn-lg btn-success btn-block">Iniciar sesión</button>
                             </fieldset>
                         </form>
                     </div>
                 </div>
+                @if(Session::has('mensaje'))
+                <p class="text-danger">{{ Session::get('mensaje') }}</p>
+                @endif
             </div>
         </div>
     </div>

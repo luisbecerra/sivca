@@ -36,7 +36,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-users fa-5x"></i>
+                            <i class="fa fa-ambulance fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{ $nAmbulancias }}</div>
@@ -82,7 +82,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-users fa-5x"></i>
+                            <i class="fa fa-hospital-o fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{ $nIps }}</div>

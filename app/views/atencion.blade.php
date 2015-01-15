@@ -47,21 +47,27 @@
                             </thead>
                             <tbody>
                                 @foreach($atenciones as $atencion)
-                                <tr>
-                                    <td><span>{{ $atencion->ambulancia->id }}</span> {{ $atencion->ambulancia->marca." ".$atencion->ambulancia->placa }}</td>
-                                    <td>{{ $atencion->tipo }}</td>
-                                    <td>{{ $atencion->motivo }}</td>
-                                    <td>{{ $atencion->tipo }}</td>
-                                    <td>{{ date( 'd-m-Y H:i',strtotime($atencion->f_solicitud) ) }}</td>
-                                    <td>{{ date( 'd-m-Y H:i',strtotime($atencion->f_atencion) ) }}</td>
-                                    <td>{{ date( 'd-m-Y H:i',strtotime($atencion->f_inicio_traslado) ) }}</td>
-                                    <td>{{ date( 'd-m-Y H:i',strtotime($atencion->f_fin_traslado) ) }}</td>
-                                    <td class="info-paciente" data-paciente='{{ $atencion->paciente->toJson() }}' data-eps='{{ $atencion->paciente->eps->toJson() }}' data-lugar='{{ $atencion->paciente->lugar->toJson() }}'>{{ $atencion->paciente->nombre }}</td>
-                                    <td data-id="{{ $atencion->sede->id }}">{{ $atencion->sede->ips->nombre." - ".$atencion->sede->nombre }}</td>
-                                    <td>
-                                        <button type="button" data-id="{{ $atencion->id }}" class="btn btn-primary glyphicon glyphicon-edit btn-editar-turno"></button>
-                                    </td>
-                                </tr>   
+                                    @if( (Auth::user()->role==3 && strtotime($atencion->created_at) > strtotime(Auth::user()->updated_at)) ||  Auth::user()->role==1)
+                                    <tr>
+                                        <td><span>{{ $atencion->ambulancia->id }}</span> {{ $atencion->ambulancia->marca." ".$atencion->ambulancia->placa }}</td>
+                                        <td>{{ $atencion->tipo }}</td>
+                                        <td>{{ $atencion->motivo }}</td>
+                                        <td>{{ $atencion->tipo }}</td>
+                                        <td>{{ date( 'd-m-Y H:i',strtotime($atencion->f_solicitud) ) }}</td>
+                                        <td>{{ date( 'd-m-Y H:i',strtotime($atencion->f_atencion) ) }}</td>
+                                        <td>{{ date( 'd-m-Y H:i',strtotime($atencion->f_inicio_traslado) ) }}</td>
+                                        <td>{{ date( 'd-m-Y H:i',strtotime($atencion->f_fin_traslado) ) }}</td>
+                                        @if( !is_null($atencion->paciente->eps) )
+                                        <td class="info-paciente" data-paciente='{{ $atencion->paciente->toJson() }}' data-eps='{{ $atencion->paciente->eps->toJson() }}' data-lugar='{{ $atencion->paciente->lugar->toJson() }}'>{{ $atencion->paciente->nombre }}</td>
+                                        @else
+                                        <td class="info-paciente" data-paciente='{{ $atencion->paciente->toJson() }}' data-eps='{{ $atencion->paciente->eps }}' data-lugar='{{ $atencion->paciente->lugar->toJson() }}'>{{ $atencion->paciente->nombre }}</td>
+                                        @endif
+                                        <td data-id="{{ $atencion->sede->id }}">{{ $atencion->sede->ips->nombre." - ".$atencion->sede->nombre }}</td>
+                                        <td>
+                                            <button type="button" data-id="{{ $atencion->id }}" class="btn btn-primary glyphicon glyphicon-edit btn-editar-turno" title="Editar"></button>
+                                        </td>
+                                    </tr>
+                                    @endif
                                 @endforeach                           
                             </tbody>
                         </table>
@@ -111,7 +117,23 @@
                 </div>
                 <div class="form-group">
                     <label>Motivo de atención</label>
-                    <textarea name="motivo" id="motivo" rows="5" class="form-control" required></textarea>
+                    <select class="form-control" name="motivo" id="motivo" required>
+                        <option>Accidente de trabajo</option>
+                        <option>Accidente de transito</option>
+                        <option>Accidente rábico</option>
+                        <option>Accidente ofídico</option>
+                        <option>Otro tipo de accidente</option>
+                        <option>Evento catastrófico</option>
+                        <option>Lesión por agresión</option>
+                        <option>Lesión auto infligida</option>
+                        <option>Sospecha de maltrato físico</option>
+                        <option>Sospecha de abuso sexual</option>
+                        <option>Sospecha de violencia sexual</option>
+                        <option>Sospecha de maltrato emocional</option>
+                        <option>Enfermedad general</option>
+                        <option>Enfermedad profesional</option>
+                        <option>Otra</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -199,7 +221,7 @@
                 <div class="form-group">
                     <label>EPS</label>
                     <select class="form-control" name="eps_id" id="eps_id">
-                        <option value="null">------</option>
+                        <option value="no_eps">------</option>
                         @foreach($epss as $eps)
                         <option value="{{ $eps->id }}">{{ $eps->nombre }}</option>
                         @endforeach
@@ -331,7 +353,10 @@
             $("#f_nacimiento").val( paciente.f_nacimiento );
             $("#genero").val( paciente.genero );
             $("#regimen").val( paciente.regimen );
-            $("#eps_id").val( paciente.eps_id );
+
+            var epsId = ( paciente.eps_id == null ) ? "no_eps": paciente.eps_id;
+
+            $("#eps_id").val( epsId );
             $("#barrio").val( paciente.lugar_id );
             $("#direccion").val( paciente.direccion );
             
@@ -348,7 +373,8 @@
             htmlStr+="<p><strong>Edad: </strong> "+ moment(paciente.f_nacimiento,'YYYYMMDD').fromNow().substring(5) +"</p>";
             htmlStr+="<p><strong>Dirección: </strong> "+paciente.direccion+"</p>";
             htmlStr+="<p><strong>Régimen: </strong> "+paciente.regimen+"</p>";
-            htmlStr+="<p><strong>Eps: </strong> "+eps.nombre+"</p>";
+            var nombreEps = ( eps.nombre == null ) ? "NO afiliado": eps.nombre;
+            htmlStr+="<p><strong>Eps: </strong> "+nombreEps+"</p>";
             htmlStr+="<p><strong>Lugar: </strong> "+lugar.nombre+"</p>";
             var urbano=(lugar.urbano) ? "Cabecera" : "Rural" ;
             htmlStr+="<p><strong>Territorio: </strong> "+ urbano +"</p>";

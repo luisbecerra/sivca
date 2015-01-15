@@ -16,22 +16,8 @@ Route::get('logout', array('uses' => 'AuthController@doLogout', 'before' => 'aut
 
 Route::group(array('before' => 'auth'),function(){
 
-	Route::get('/inicio',  function(){
-		$nTripulantes=Tripulacion::count();
-		$nAmbulancias=Ambulancia::count();
-		$nPacientes=Tripulacion::count();
-		$nIps=Tripulacion::count();
-		$nAtendidos=Atencion::select('paciente_id')->groupBy('paciente_id')->get();
-		$nPoblacion=Poblacion::sum('i_total');
-
-	    return View::make('inicio')
-	    	->with('nTripulantes',$nTripulantes)
-	    	->with('nAmbulancias',$nAmbulancias)
-	    	->with('nPacientes',$nPacientes)
-	    	->with('nIps',$nIps)
-	    	->with('nAtendidos',$nAtendidos)
-	    	->with('nPoblacion',$nPoblacion);
-	});
+	//rutas para ips
+	Route::controller('inicio', 'InicioController');
 
 	Route::get('/consultaRUP',  function(){
 	    return View::make('rup');

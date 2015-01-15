@@ -14,4 +14,8 @@ class Paciente extends Eloquent{
 	public function lugar(){
 		return $this->belongsTo('Lugar');
 	}
+
+	public function atenciones(){
+		return $this->hasMany('Atencion');
+	}
 }
