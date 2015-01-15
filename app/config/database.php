@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'comercity',
+			'database'  => 'sivca',
 			'username'  => 'root',
 			'password'  => 'FELIPE',
 			'charset'   => 'utf8',

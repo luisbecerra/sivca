@@ -169,7 +169,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Estadísticas<span class="fa arrow"></span></a>
+                            <a href="estadisticas"><i class="fa fa-bar-chart-o fa-fw"></i> Estadísticas<span class="fa arrow"></span></a>
                             
                             <!-- /.nav-second-level -->
                         </li>

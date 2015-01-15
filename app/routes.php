@@ -81,10 +81,9 @@ Route::group(array('before' => 'auth'),function(){
 	//ruta para atenciones de pacientes
 	Route::controller('atencion', 'AtencionController');
 
+	//ruta para atenciones de pacientes
+	Route::controller('estadisticas', 'EstadisticasController');
+
 	//ruta para pacientes
 	//Route::controller('paciente', 'PacienteController');
-
-	Route::get('/pruebas',  function(){
-	    return date('H:i',strtotime('01:00'));
-	});
 });
